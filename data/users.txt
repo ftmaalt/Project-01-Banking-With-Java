@@ -1,0 +1,2 @@
+=====Main Users DataBase=====
+USERID || ROLE || FULL NAME || PASSWORD || CARD_TYPE
