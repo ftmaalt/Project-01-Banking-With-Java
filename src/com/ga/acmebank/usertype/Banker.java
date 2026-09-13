@@ -2,6 +2,7 @@ package com.ga.acmebank.usertype;
 
 import com.ga.acmebank.LoginHandler;
 import com.ga.acmebank.account.BankAccount;
+import com.ga.acmebank.usertype.passwordHasher;
 
 import java.io.*;
 import java.nio.*;
@@ -13,6 +14,7 @@ public class Banker extends LoginHandler implements UserRole, BankAccount {
     static long cIdNums=10000;
     static long bIdNums;
     static String userID="";
+    static String userInputpassword="";
 //    BufferedWriter writer=null;
 
     public Banker( String password, String userName) {
@@ -103,6 +105,7 @@ public class Banker extends LoginHandler implements UserRole, BankAccount {
             password= scanner.nextLine();
         }
         System.out.println("Password Created Successfully");
+        String hashedPass= passwordHasher.hash(password);
 
 // Creating the customer file:
         try {
@@ -115,6 +118,23 @@ public class Banker extends LoginHandler implements UserRole, BankAccount {
         if (newCustomer.createNewFile()) {
             System.out.println("Customer Added Successfully: "+ newCustomer.getName());
             System.out.println("Please Log in again to continue using the app.");
+            // Adding User info to the main User File:
+            try(BufferedWriter writeNewCustomer= new BufferedWriter(new FileWriter("data/users.txt",true))) {
+//                writeNewCustomer.newLine();
+                List<String> details = Arrays.asList(
+                        newCustomerID+" || ", "C || ", fixedname+" || ",hashedPass+" || ",defaultcard);
+                for (String detail:details){
+                    writeNewCustomer.write(detail);
+                }
+                writeNewCustomer.newLine();
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+
             super.login();
             return true;
         }else
@@ -123,44 +143,7 @@ public class Banker extends LoginHandler implements UserRole, BankAccount {
             System.out.println("Error detected");
             e.printStackTrace();
         }
-        // Adding User info to the main User File:
-        try(BufferedWriter writeNewCustomer= new BufferedWriter(new FileWriter("data/users.txt",true))) {
-            writeNewCustomer.write(newCustomerID+" || ");
-            writeNewCustomer.write(role()+" || ");
-            writeNewCustomer.write(fixedname+" || ");
-            writeNewCustomer.write(password+" || "); // should be hashed
-            writeNewCustomer.write(defaultcard);
-            writeNewCustomer.newLine();
 
-            if (writeNewCustomer != null) {
-                try {
-                    writeNewCustomer.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new FileReader("data/users.txt"));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                System.out.println(line);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
         return false;
     }
 

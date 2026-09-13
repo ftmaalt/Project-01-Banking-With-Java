@@ -2,12 +2,15 @@ package com.ga.acmebank;
 
 import com.ga.acmebank.usertype.Banker;
 import com.ga.acmebank.usertype.UserAccountActions;
+import com.ga.acmebank.usertype.passwordHasher;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 import java.io.*;
 import java.nio.*;
+
+import static com.ga.acmebank.usertype.passwordHasher.verifyPasswords;
 
 //must get role from userrole somehow
 public class LoginHandler{
@@ -79,19 +82,20 @@ public class LoginHandler{
                 if (fileExists) {
                     System.out.println("Enter your Password:");
                     String password = loginScanner.nextLine();
-                    try(Scanner fileReader= new Scanner("data")){
+                    try(Scanner fileReader= new Scanner(new File("data/users.txt"))){
                         while(fileReader.hasNextLine()){
                             String data= fileReader.nextLine();
-                            if (data.startsWith("====")|| data.startsWith("USERID"))
-                                continue;
-                            else{
-                                String[] userinfoSplitter= data.split("\\s*\\|\\|\\s*");
-                                if (userinfoSplitter[3].equals(password)){
+                            String[] userinfoSplitter= data.split("\\s*\\|\\|\\s*");
+                            if (inputID.equals(userinfoSplitter[0])){
+                                if (verifyPasswords(password,userinfoSplitter[3])){
                                     setUserName(userinfoSplitter[2]);
                                     accountActions();
-                                } else {
+                                }else {
                                     failedLogin();
                                 }
+                            }
+                            else{
+                                continue;
                             }
                         }
                     }
@@ -114,8 +118,9 @@ public class LoginHandler{
 
 
         }
-
 }
+
+
         public void failedLogin () {
 
             System.out.println("Wrong Username or Password. Please Try again");

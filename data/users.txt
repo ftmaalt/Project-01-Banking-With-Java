@@ -1,2 +1,4 @@
 =====Main Users DataBase=====
 USERID || ROLE || FULL NAME || PASSWORD || CARD_TYPE
+C10000 || C || Jeremy Johns || c+/ykpDfk1pGmnSwbH8CrA==:gsAhW1ctZohfrXAhyM+lJw== || MasterCard
+C10001 || C || Jane Doe || iiKz3r7neCM6AqV5wshofQ==:KazO/2QxzyTIeOhsj07nrQ== || MasterCard
