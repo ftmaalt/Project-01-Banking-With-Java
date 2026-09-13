@@ -10,7 +10,9 @@ import java.nio.file.*;
 import java.util.*;
 import java.util.stream.Stream;
 
-public class Banker extends LoginHandler implements UserRole, BankAccount {
+import static com.ga.acmebank.account.BankAccount.defaultcard;
+
+public class Banker extends LoginHandler implements UserRole{
     static long cIdNums=10000;
     static long bIdNums;
     static String userID="";

@@ -1,8 +1,13 @@
 package com.ga.acmebank.account;
 
-public interface BankAccount{
+public interface BankAccount {
     String defaultcard= "MasterCard";
-//    Double deposit(String cID);
-//    String UpdateCardType(String cID);
+    boolean hasSavingsAccount();
+    String UpdateCardType();
+    String depositMoney(double balance);
+    String withdrawMoney(double balance);
+    String depositToAccount(double balance, String userID);
+    String transferMoney(double balance);
+    String transferToAccount(double balance, String userID);
 
 }

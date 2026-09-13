@@ -1,8 +1,13 @@
 package com.ga.acmebank;
 
+import com.ga.acmebank.account.BankAccount;
+import com.ga.acmebank.account.CheckingAccount;
+import com.ga.acmebank.account.SavingsAccount;
 import com.ga.acmebank.usertype.Banker;
 import com.ga.acmebank.usertype.UserAccountActions;
 import com.ga.acmebank.usertype.passwordHasher;
+import static com.ga.acmebank.usertype.passwordHasher.verifyPasswords;
+
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -10,26 +15,16 @@ import java.util.*;
 import java.io.*;
 import java.nio.*;
 
-import static com.ga.acmebank.usertype.passwordHasher.verifyPasswords;
 
 //must get role from userrole somehow
 public class LoginHandler{
-    long userID;
+    BankAccount userAccountAction;
+    String userID;
     static String userName;
-    static String password;
     static Scanner loginScanner = new Scanner(System.in);
-    //    static Timer attemptsTimer = new Timer();
-//    static Timer wrongAttemptTimer = new Timer();
     static int attemptsCount = 0;
-//    static TimerTask loginProcessor;
 
 
-    public LoginHandler(String password, String userName) {
-
-//        this.userID = userID;
-        this.password = password;
-        this.userName = userName;
-    }
 //    @Override
 //    public char role() {
 //        char setRole='B';
@@ -39,6 +34,14 @@ public class LoginHandler{
 //        return setRole;
 //    }
 
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
 
     public static void setUserName(String userName) {
         LoginHandler.userName = userName;
@@ -80,6 +83,7 @@ public class LoginHandler{
             try {
                 boolean fileExists = Files.walk(Path.of("C:/Users/fmabd/jdb/projects/Project1- Banking With Java/data")).filter(Files::isRegularFile).anyMatch(path -> path.getFileName().toString().contains(inputID));
                 if (fileExists) {
+                    setUserID(inputID);
                     System.out.println("Enter your Password:");
                     String password = loginScanner.nextLine();
                     try(Scanner fileReader= new Scanner(new File("data/users.txt"))){
@@ -140,14 +144,66 @@ public class LoginHandler{
             }
         }
         public void accountActions () {
+            double amount=0.0;
             System.out.println("Welcome, " + getUserName());
-//                    System.out.println("Pick an Action:");
-//                    System.out.println("1.Deposit\n2.Transfer\n3.Withdraw\n4.Check Your account");
-//                    String action= loginScanner.nextLine();
+                    System.out.println("Pick an Action: e.g. 1 to Deposit");
+                    System.out.println("1.Deposit\n2.Transfer\n3.Withdraw\n4.Check Your account Balance");
+                    int action= loginScanner.nextInt();
+                    if (action==1){
+                            System.out.println("1.Inner Deposit || 2.Outer Deposit");
+                            int deposit_action= loginScanner.nextInt();
+
+                            if (deposit_action==1) {
+
+                                if (userAccountAction.hasSavingsAccount()) {
+                                    System.out.println("Deposit to :\n1.Checking Account || 2. Savings Account");
+                                    deposit_action= loginScanner.nextInt();
+
+                                    if (deposit_action==1) {
+                                        userAccountAction = new CheckingAccount(getUserID());
+                                        System.out.println("Enter the amount you wish to deposit:");
+                                        amount= loginScanner.nextDouble();
+                                        System.out.println(userAccountAction.depositMoney(amount));
+
+                                    } else if (deposit_action==2) {
+                                        userAccountAction= new SavingsAccount(getUserID());
+                                        System.out.println("Enter the amount you wish to deposit:");
+                                        amount= loginScanner.nextDouble();
+                                        System.out.println(userAccountAction.depositMoney(amount));
+                                    }
+                                }
+                                else{
+                                    userAccountAction = new CheckingAccount(getUserID());
+                                    System.out.println("Enter the amount you wish to deposit:");
+                                    amount= loginScanner.nextDouble();
+                                    System.out.println(userAccountAction.depositMoney(amount));
+                                }
+                            }else if (deposit_action==2){
+                                userAccountAction = new CheckingAccount(getUserID());
+                                System.out.println("Enter the Account ID you wish to deposit to:");
+                                String action_ID= loginScanner.nextLine();
+                                try(Scanner fileReader= new Scanner(new File("data/users.txt"))) {
+                                    while (fileReader.hasNextLine()) {
+                                        String data = fileReader.nextLine();
+                                        String[] userinfoSplitter = data.split("\\s*\\|\\|\\s*");
+                                        if (action_ID.equals(userinfoSplitter[0])) {
+                                            System.out.println("Enter the amount you wish to deposit:");
+                                            amount = loginScanner.nextDouble();
+                                            System.out.println(userAccountAction.depositToAccount(amount,action_ID));
+
+                                        }
+                                    }
+                                } catch (Exception e) {
+                                    System.out.println("Account Not Found.");
+                                    throw new RuntimeException(e);
+                                }
+                            }
+
+                    }
         }
 
         public static void main (String[]args){
-            LoginHandler newloginattempt = new LoginHandler(null, null);
+            LoginHandler newloginattempt = new LoginHandler();
             newloginattempt.login();
         }
     }
