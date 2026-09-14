@@ -4,26 +4,26 @@ public class MasterCardPlatinum extends Card{
 
     @Override
     public void setWithdraw_limit(double withdraw_limit) {
-        super.setWithdraw_limit(20-000);
+        super.setWithdraw_limit(20_000);
     }
 
     @Override
     public void setTransfer_limit(double transfer_limit) {
-        super.setTransfer_limit(40-000);
+        super.setTransfer_limit(40_000);
     }
 
     @Override
     public void setTransferDifAccount_limit(double transferDifAccount_limit) {
-        super.setTransferDifAccount_limit(80-000);
+        super.setTransferDifAccount_limit(80_000);
     }
 
     @Override
     public void setDeposit_limit(double deposit_limit) {
-        super.setDeposit_limit(100-000);
+        super.setDeposit_limit(100_000);
     }
 
     @Override
     public void setDepositDifAccount_limit(double depositDifAccount_limit) {
-        super.setDepositDifAccount_limit(200-000);
+        super.setDepositDifAccount_limit(200_000);
     }
 }

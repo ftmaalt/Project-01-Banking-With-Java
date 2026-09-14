@@ -19,9 +19,9 @@ public class Banker extends LoginHandler implements UserRole{
     static String userInputpassword="";
 //    BufferedWriter writer=null;
 
-    public Banker( String password, String userName) {
-        super(password, userName);
-    }
+//    public Banker( String password, String userName) {
+//        super();
+//    }
 
     @Override
     public char role() {
@@ -119,23 +119,21 @@ public class Banker extends LoginHandler implements UserRole{
             File newCustomer= new File(dir, "Customer-"+fixedname.toUpperCase()+"-"+newCustomerID+".txt");
         if (newCustomer.createNewFile()) {
             System.out.println("Customer Added Successfully: "+ newCustomer.getName());
+            initCustomerFile(newCustomer, newCustomerID);
             System.out.println("Please Log in again to continue using the app.");
             // Adding User info to the main User File:
             try(BufferedWriter writeNewCustomer= new BufferedWriter(new FileWriter("data/users.txt",true))) {
 //                writeNewCustomer.newLine();
                 List<String> details = Arrays.asList(
-                        newCustomerID+" || ", "C || ", fixedname+" || ",hashedPass+" || ",defaultcard);
+                        newCustomerID+" || ", "C || ", fixedname+" || ",hashedPass+" || ",defaultcard+" || ", newCustomerID+"-CH || ",newCustomerID +"-SV");
                 for (String detail:details){
                     writeNewCustomer.write(detail);
                 }
                 writeNewCustomer.newLine();
 
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-
 
             super.login();
             return true;
@@ -147,6 +145,26 @@ public class Banker extends LoginHandler implements UserRole{
         }
 
         return false;
+    }
+    public void initCustomerFile(File customerFile, String custID){
+        try(BufferedWriter writeCustomerFile = new BufferedWriter(new FileWriter(customerFile))){
+            List<String> acctInfo = Arrays.asList(
+                    "====CHECKING ACCOUNT====\n",
+                    "ACCOUNTID: "+ custID +"-CH\n",
+                    "Account Balance: 0.00\n-------Transaction History-------\nDATE|TYPE|AMOUNT|POST-BALANCE\n",
+                    "====SAVINGS ACCOUNT====\n",
+                    "ACCOUNTID: "+ custID +"-SV\n",
+                    "Account Balance: 0.00\n-------Transaction History-------\nDATE|TYPE|AMOUNT|POST-BALANCE\n"
+            );
+            for(String info:acctInfo){
+                writeCustomerFile.write(info);
+            }
+            writeCustomerFile.newLine();
+        } catch (IOException r) {
+            r.printStackTrace();
+        }
+
+
     }
 
 

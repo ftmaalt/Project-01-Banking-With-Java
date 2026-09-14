@@ -1,0 +1,11 @@
+=====CHECKING ACCOUNT=====
+AccountID: C10000-CH
+Balance: 0.00
+-------Transactions-------
+DATE|TYPE|AMOUNT|POST-BALANCE
+
+=====SAVINGS ACCOUNT=====
+AccountID: C10000-SV
+Balance: 0.00
+-------Transactions-------
+DATE|TYPE|AMOUNT|POST-BALANCE

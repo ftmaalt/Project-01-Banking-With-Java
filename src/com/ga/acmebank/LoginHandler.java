@@ -18,7 +18,8 @@ import java.nio.*;
 
 //must get role from userrole somehow
 public class LoginHandler{
-    BankAccount userAccountAction;
+    BankAccount newSavings= new SavingsAccount(getUserID());
+    BankAccount newChecking= new CheckingAccount(getUserID());
     String userID;
     static String userName;
     static Scanner loginScanner = new Scanner(System.in);
@@ -81,7 +82,7 @@ public class LoginHandler{
             System.out.println("Enter your ID:");
             String inputID = loginScanner.nextLine().toUpperCase().strip();
             try {
-                boolean fileExists = Files.walk(Path.of("C:/Users/fmabd/jdb/projects/Project1- Banking With Java/data")).filter(Files::isRegularFile).anyMatch(path -> path.getFileName().toString().contains(inputID));
+                boolean fileExists = Files.walk(Path.of("data")).filter(Files::isRegularFile).anyMatch(path -> path.getFileName().toString().contains(inputID));
                 if (fileExists) {
                     setUserID(inputID);
                     System.out.println("Enter your Password:");
@@ -111,7 +112,7 @@ public class LoginHandler{
                             login();
                         else {
                             // should call one of the bankers
-                            Banker mike = new Banker(null, null);
+                            Banker mike = new Banker();
                             mike.createNewCustomer();
                         }
                     }
@@ -149,37 +150,34 @@ public class LoginHandler{
                     System.out.println("Pick an Action: e.g. 1 to Deposit");
                     System.out.println("1.Deposit\n2.Transfer\n3.Withdraw\n4.Check Your account Balance");
                     int action= loginScanner.nextInt();
+                    loginScanner.nextLine();
                     if (action==1){
                             System.out.println("1.Inner Deposit || 2.Outer Deposit");
                             int deposit_action= loginScanner.nextInt();
+                        loginScanner.nextLine();
+                        if (deposit_action==1) {
 
-                            if (deposit_action==1) {
-
-                                if (userAccountAction.hasSavingsAccount()) {
+                                if (newSavings.savingAccountID(getUserID()) != null) {
                                     System.out.println("Deposit to :\n1.Checking Account || 2. Savings Account");
                                     deposit_action= loginScanner.nextInt();
-
+                                    loginScanner.nextLine();
                                     if (deposit_action==1) {
-                                        userAccountAction = new CheckingAccount(getUserID());
                                         System.out.println("Enter the amount you wish to deposit:");
                                         amount= loginScanner.nextDouble();
-                                        System.out.println(userAccountAction.depositMoney(amount));
+                                        System.out.println(newChecking.depositMoney(amount));
 
                                     } else if (deposit_action==2) {
-                                        userAccountAction= new SavingsAccount(getUserID());
                                         System.out.println("Enter the amount you wish to deposit:");
                                         amount= loginScanner.nextDouble();
-                                        System.out.println(userAccountAction.depositMoney(amount));
+                                        System.out.println(newSavings.depositMoney(amount));
                                     }
                                 }
                                 else{
-                                    userAccountAction = new CheckingAccount(getUserID());
                                     System.out.println("Enter the amount you wish to deposit:");
                                     amount= loginScanner.nextDouble();
-                                    System.out.println(userAccountAction.depositMoney(amount));
+                                    System.out.println(newChecking.depositMoney(amount));
                                 }
                             }else if (deposit_action==2){
-                                userAccountAction = new CheckingAccount(getUserID());
                                 System.out.println("Enter the Account ID you wish to deposit to:");
                                 String action_ID= loginScanner.nextLine();
                                 try(Scanner fileReader= new Scanner(new File("data/users.txt"))) {
@@ -189,16 +187,64 @@ public class LoginHandler{
                                         if (action_ID.equals(userinfoSplitter[0])) {
                                             System.out.println("Enter the amount you wish to deposit:");
                                             amount = loginScanner.nextDouble();
-                                            System.out.println(userAccountAction.depositToAccount(amount,action_ID));
-
+                                            System.out.println(newChecking.depositToAccount(amount,action_ID));
                                         }
                                     }
                                 } catch (Exception e) {
                                     System.out.println("Account Not Found.");
                                     throw new RuntimeException(e);
                                 }
+                            }else{
+                                System.out.println("Action not found, please try again.");
+                                
                             }
 
+                    }else if(action==2) {
+                        System.out.println("Enter the Account ID you wish to transfer to:");
+                        String action2_ID = loginScanner.nextLine();
+                        
+                        if (getUserID().equals(action2_ID) && (newSavings.savingAccountID(getUserID()) != null)) {
+                            System.out.println("Pick an Action to Transfer: 1.Checking -> Saving || 2.Saving -> Checking");
+                            int transfer_action = loginScanner.nextInt();
+                            loginScanner.nextLine();
+                            if (transfer_action == 1) {
+                                System.out.println("Enter the amount you wish to transfer into your Savings Account:");
+                                amount = loginScanner.nextDouble();
+                                newChecking.transferMoney(amount, newSavings.savingAccountID(getUserID()));
+                                
+                            } else if (transfer_action==2) {
+                                System.out.println("Enter the amount you wish to transfer into your Checking Account:");
+                                amount = loginScanner.nextDouble();
+                                newSavings.transferMoney(amount, newChecking.checkingAccountID(getUserID()));
+
+                            }else{
+                                System.out.println("Action not found, please try again.");
+
+                            }
+                        }
+                    } else if (action==3) {
+                        System.out.println("Enter the Account ID you wish to withdraw from:");
+                        String action2_ID = loginScanner.nextLine();
+
+                        if (getUserID().equals(action2_ID) && (newSavings.savingAccountID(getUserID()) != null)) {
+                            System.out.println("Pick an Action to Transfer: 1.Checking -> Saving || 2.Saving -> Checking");
+                            int transfer_action = loginScanner.nextInt();
+                            loginScanner.nextLine();
+                            if (transfer_action == 1) {
+                                System.out.println("Enter the amount you wish to transfer into your Savings Account:");
+                                amount = loginScanner.nextDouble();
+                                newChecking.transferMoney(amount, newSavings.savingAccountID(getUserID()));
+
+                            } else if (transfer_action==2) {
+                                System.out.println("Enter the amount you wish to transfer into your Checking Account:");
+                                amount = loginScanner.nextDouble();
+                                newSavings.transferMoney(amount, newChecking.checkingAccountID(getUserID()));
+
+                            }else{
+                                System.out.println("Action not found, please try again.");
+
+                            }
+                        }
                     }
         }
 
