@@ -151,10 +151,10 @@ public class Banker extends LoginHandler implements UserRole{
             List<String> acctInfo = Arrays.asList(
                     "====CHECKING ACCOUNT====\n",
                     "ACCOUNTID: "+ custID +"-CH\n",
-                    "Account Balance: 0.00\n-------Transaction History-------\nDATE|TYPE|AMOUNT|POST-BALANCE\n",
+                    "Account Balance: 0.00\n-------Transaction History-------\nDATE|TYPE|FROM|TO|AMOUNT|POST-BALANCE\n",
                     "====SAVINGS ACCOUNT====\n",
                     "ACCOUNTID: "+ custID +"-SV\n",
-                    "Account Balance: 0.00\n-------Transaction History-------\nDATE|TYPE|AMOUNT|POST-BALANCE\n"
+                    "Account Balance: 0.00\n-------Transaction History-------\nDATE|TYPE|FROM|TO|AMOUNT|POST-BALANCE\n"
             );
             for(String info:acctInfo){
                 writeCustomerFile.write(info);

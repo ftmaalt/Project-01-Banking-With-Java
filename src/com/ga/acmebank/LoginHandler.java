@@ -4,8 +4,8 @@ import com.ga.acmebank.account.BankAccount;
 import com.ga.acmebank.account.CheckingAccount;
 import com.ga.acmebank.account.SavingsAccount;
 import com.ga.acmebank.usertype.Banker;
-import com.ga.acmebank.usertype.UserAccountActions;
-import com.ga.acmebank.usertype.passwordHasher;
+
+
 import static com.ga.acmebank.usertype.passwordHasher.verifyPasswords;
 
 
@@ -13,13 +13,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 import java.io.*;
-import java.nio.*;
 
 
 //must get role from userrole somehow
 public class LoginHandler{
-    BankAccount newSavings= new SavingsAccount(getUserID());
-    BankAccount newChecking= new CheckingAccount(getUserID());
+
     String userID;
     static String userName;
     static Scanner loginScanner = new Scanner(System.in);
@@ -94,7 +92,8 @@ public class LoginHandler{
                             if (inputID.equals(userinfoSplitter[0])){
                                 if (verifyPasswords(password,userinfoSplitter[3])){
                                     setUserName(userinfoSplitter[2]);
-                                    accountActions();
+                                    UserAccountActions newLoginAction= new Actions();
+                                    newLoginAction.accountActions(getUserID());
                                 }else {
                                     failedLogin();
                                 }
@@ -144,109 +143,7 @@ public class LoginHandler{
                 login();
             }
         }
-        public void accountActions () {
-            double amount=0.0;
-            System.out.println("Welcome, " + getUserName());
-                    System.out.println("Pick an Action: e.g. 1 to Deposit");
-                    System.out.println("1.Deposit\n2.Transfer\n3.Withdraw\n4.Check Your account Balance");
-                    int action= loginScanner.nextInt();
-                    loginScanner.nextLine();
-                    if (action==1){
-                            System.out.println("1.Inner Deposit || 2.Outer Deposit");
-                            int deposit_action= loginScanner.nextInt();
-                        loginScanner.nextLine();
-                        if (deposit_action==1) {
 
-                                if (newSavings.savingAccountID(getUserID()) != null) {
-                                    System.out.println("Deposit to :\n1.Checking Account || 2. Savings Account");
-                                    deposit_action= loginScanner.nextInt();
-                                    loginScanner.nextLine();
-                                    if (deposit_action==1) {
-                                        System.out.println("Enter the amount you wish to deposit:");
-                                        amount= loginScanner.nextDouble();
-                                        System.out.println(newChecking.depositMoney(amount));
-
-                                    } else if (deposit_action==2) {
-                                        System.out.println("Enter the amount you wish to deposit:");
-                                        amount= loginScanner.nextDouble();
-                                        System.out.println(newSavings.depositMoney(amount));
-                                    }
-                                }
-                                else{
-                                    System.out.println("Enter the amount you wish to deposit:");
-                                    amount= loginScanner.nextDouble();
-                                    System.out.println(newChecking.depositMoney(amount));
-                                }
-                            }else if (deposit_action==2){
-                                System.out.println("Enter the Account ID you wish to deposit to:");
-                                String action_ID= loginScanner.nextLine();
-                                try(Scanner fileReader= new Scanner(new File("data/users.txt"))) {
-                                    while (fileReader.hasNextLine()) {
-                                        String data = fileReader.nextLine();
-                                        String[] userinfoSplitter = data.split("\\s*\\|\\|\\s*");
-                                        if (action_ID.equals(userinfoSplitter[0])) {
-                                            System.out.println("Enter the amount you wish to deposit:");
-                                            amount = loginScanner.nextDouble();
-                                            System.out.println(newChecking.depositToAccount(amount,action_ID));
-                                        }
-                                    }
-                                } catch (Exception e) {
-                                    System.out.println("Account Not Found.");
-                                    throw new RuntimeException(e);
-                                }
-                            }else{
-                                System.out.println("Action not found, please try again.");
-                                
-                            }
-
-                    }else if(action==2) {
-                        System.out.println("Enter the Account ID you wish to transfer to:");
-                        String action2_ID = loginScanner.nextLine();
-                        
-                        if (getUserID().equals(action2_ID) && (newSavings.savingAccountID(getUserID()) != null)) {
-                            System.out.println("Pick an Action to Transfer: 1.Checking -> Saving || 2.Saving -> Checking");
-                            int transfer_action = loginScanner.nextInt();
-                            loginScanner.nextLine();
-                            if (transfer_action == 1) {
-                                System.out.println("Enter the amount you wish to transfer into your Savings Account:");
-                                amount = loginScanner.nextDouble();
-                                newChecking.transferMoney(amount, newSavings.savingAccountID(getUserID()));
-                                
-                            } else if (transfer_action==2) {
-                                System.out.println("Enter the amount you wish to transfer into your Checking Account:");
-                                amount = loginScanner.nextDouble();
-                                newSavings.transferMoney(amount, newChecking.checkingAccountID(getUserID()));
-
-                            }else{
-                                System.out.println("Action not found, please try again.");
-
-                            }
-                        }
-                    } else if (action==3) {
-                        System.out.println("Enter the Account ID you wish to withdraw from:");
-                        String action2_ID = loginScanner.nextLine();
-
-                        if (getUserID().equals(action2_ID) && (newSavings.savingAccountID(getUserID()) != null)) {
-                            System.out.println("Pick an Action to Transfer: 1.Checking -> Saving || 2.Saving -> Checking");
-                            int transfer_action = loginScanner.nextInt();
-                            loginScanner.nextLine();
-                            if (transfer_action == 1) {
-                                System.out.println("Enter the amount you wish to transfer into your Savings Account:");
-                                amount = loginScanner.nextDouble();
-                                newChecking.transferMoney(amount, newSavings.savingAccountID(getUserID()));
-
-                            } else if (transfer_action==2) {
-                                System.out.println("Enter the amount you wish to transfer into your Checking Account:");
-                                amount = loginScanner.nextDouble();
-                                newSavings.transferMoney(amount, newChecking.checkingAccountID(getUserID()));
-
-                            }else{
-                                System.out.println("Action not found, please try again.");
-
-                            }
-                        }
-                    }
-        }
 
         public static void main (String[]args){
             LoginHandler newloginattempt = new LoginHandler();
