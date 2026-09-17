@@ -184,7 +184,9 @@ public abstract class Account implements BankAccount {
             }
 
             double currentBalance= AccountFileHelper.readBalance(file, section());
-            if (activationRequired() && !isAccountActivated() && currentFromBalance < activationBalance()) {
+            OverdraftActions overdraft = new OverdraftActions();
+            boolean active = !overdraft.isDeactivated(userID, section());
+            if (activationRequired() && !active && currentBalance < activationBalance()) {
                 return "Please deposit a minimum of " + activationBalance() + " to activate this account.";
             }
             if (currentBalance<0 && balance>100){
@@ -225,8 +227,10 @@ public abstract class Account implements BankAccount {
             String myActID= ownActID();
             double currentFromBalance= AccountFileHelper.readBalance(fromFile, section());
 
-            if (activationRequired() && currentFromBalance<=activationBalance()){
-                return "Please deposit a minimum of "+activationBalance()+" to be able to transfer from this account.";
+            OverdraftActions overdraft = new OverdraftActions();
+            boolean active = !overdraft.isDeactivated(userID, section());
+            if (activationRequired() && !active && currentFromBalance < activationBalance()) {
+                return "Please deposit a minimum of " + activationBalance() + " to activate this account.";
             }
             if (currentFromBalance<0 && balance>100){
                 return "Error performing Transfer. Please resolve any OverDraw in your account and try again.";

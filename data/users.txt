@@ -7,5 +7,5 @@ B100 || B || Micheal Adam || B9CNmcFDUCxQOplj+GCKVg==:PtxeblqcoAfcekb/aIF9kg== |
 C10003 || C || John Doe || Lao6EkjB9Er9AHZM3LuT4g==:QKrqJ/EDZF7AjXmFppmvqw== || MasterCard || C10003-CH || C10003-SV
 C10004 || C || OverDrafter fake || ZQCcKF12s1dtL1/FiQZKOw==:vzL2q0PwQxuj4VlqzeoJGw== || MasterCard || C10004-CH || C10004-SV
 C10005 || C || Other Card || 0bz0N9Q2xkE0ALxGOcljnA==:3XDpfxp+y/c6ppmnGXSOHw== || MasterCardPlatinum || C10005-CH || C10005-SV
-TESTCH999 || C || Test User || dummyhash || MasterCard || TESTCH999-CH || TESTCH999-SV
-C10006 || C || Sample Account || UHi3G4wDotmz/BODDtGd3w==:Uoz424ZW+48J3VwsYdwkDg== || MasterCard || C10006-CH || C10006-SV
+C10006 || C || Sample Account || UHi3G4wDotmz/BODDtGd3w==:Uoz424ZW+48J3VwsYdwkDg== || MasterCard || C10006-CH || C10006-SVTESTCH999 || C || Test User || dummyhash || MasterCard || TESTCH999-CH || TESTCH999-SV
+B101 || B || Maria Law || +q3CGnA4NirNBB+uD/I0OA==:2HbqemWu+D96IR+a74h1Lg== || MasterCard || B101-CH || B101-SV

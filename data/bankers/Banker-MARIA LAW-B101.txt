@@ -1,0 +1,11 @@
+====CHECKING ACCOUNT====
+ACCOUNTID: B101-CH
+Account Balance: 0.00
+-------Transaction History-------
+DATE|TYPE|FROM|TO|AMOUNT|POST-BALANCE
+====SAVINGS ACCOUNT====
+ACCOUNTID: B101-SV
+Account Balance: 0.00
+-------Transaction History-------
+DATE|TYPE|FROM|TO|AMOUNT|POST-BALANCE
+

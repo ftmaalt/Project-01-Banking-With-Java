@@ -1,11 +1,12 @@
 ====CHECKING ACCOUNT====
 ACCOUNTID: C10004-CH
 Account Balance: -66.00
-Status: DEACTIVATED
-OverDrafts: 2
-Status: DEACTIVATED
-Status: DEACTIVATED
-Status: DEACTIVATED
+Status: ACTIVE
+OverDrafts: 0
+Status: ACTIVE
+Status: ACTIVE
+Status: ACTIVE
+Status: ACTIVE
 -------Transaction History-------
 DATE|TYPE|FROM|TO|AMOUNT|POST-BALANCE
 07:34:05 17-09-2026|Deposit|C10004-CH|C10004-CH|700.00|700.00
