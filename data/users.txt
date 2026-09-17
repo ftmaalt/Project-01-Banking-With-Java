@@ -6,3 +6,6 @@ C10002 || C || Lana Anne || Lmg1Te4d+Zy8Vn8hIVVoeA==:n5pynpuJOR9rUo6yIhF9Hw== ||
 B100 || B || Micheal Adam || B9CNmcFDUCxQOplj+GCKVg==:PtxeblqcoAfcekb/aIF9kg== || MasterCard || B100-CH || B100-SV
 C10003 || C || John Doe || Lao6EkjB9Er9AHZM3LuT4g==:QKrqJ/EDZF7AjXmFppmvqw== || MasterCard || C10003-CH || C10003-SV
 C10004 || C || OverDrafter fake || ZQCcKF12s1dtL1/FiQZKOw==:vzL2q0PwQxuj4VlqzeoJGw== || MasterCard || C10004-CH || C10004-SV
+C10005 || C || Other Card || 0bz0N9Q2xkE0ALxGOcljnA==:3XDpfxp+y/c6ppmnGXSOHw== || MasterCardPlatinum || C10005-CH || C10005-SV
+TESTCH999 || C || Test User || dummyhash || MasterCard || TESTCH999-CH || TESTCH999-SV
+C10006 || C || Sample Account || UHi3G4wDotmz/BODDtGd3w==:Uoz424ZW+48J3VwsYdwkDg== || MasterCard || C10006-CH || C10006-SV

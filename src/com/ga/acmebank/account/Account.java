@@ -154,7 +154,11 @@ public abstract class Account implements BankAccount {
                 new OverdraftActions().reactivateResolved(userID, section(), newBalance);
                 acct_balance = newBalance;
             }
-            return "Deposit Successful. Deposited Amount: "+balance+ " to Account "+ iD;
+            String cardUpdateStatus = UpdateCardType();
+            if (cardUpdateStatus.startsWith("Congratulations")) {
+                return "Deposit Successful. Deposited Amount: " + balance + " to Account " + iD + "\n" + cardUpdateStatus;
+            }
+            return "Deposit Successful. Deposited Amount: " + balance + " to Account " + iD;
         } catch (IOException e) {
         return "There was an error while performing this action, please try again...";
         }
@@ -180,8 +184,8 @@ public abstract class Account implements BankAccount {
             }
 
             double currentBalance= AccountFileHelper.readBalance(file, section());
-            if (activationRequired() && currentBalance<=activationBalance()){
-                return "Please deposit a minimum of "+activationBalance()+" to be able to withdraw from this account.";
+            if (activationRequired() && !isAccountActivated() && currentFromBalance < activationBalance()) {
+                return "Please deposit a minimum of " + activationBalance() + " to activate this account.";
             }
             if (currentBalance<0 && balance>100){
                 return "Error performing withdrawal. Please resolve any OverDraw in your account and try again.";

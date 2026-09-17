@@ -64,6 +64,14 @@ public class CheckingAccountTest {
     }
 
     @Test
+    @DisplayName("When deposit made then balance updates and transaction records")
+    public final void whenDepositMadeThenBalanceUpdatesAndTransactionRecords() throws IOException {
+        String result = checking.depositMoney(50.00, TEST_ID + "-CH");
+        assertTrue(result.contains("Deposit Successful"));
+        assertEquals(250.00, AccountFileHelper.readBalance(testFile, CheckingAccount.section_header), 0.001);
+    }
+
+    @Test
     @DisplayName("When checking type specified then stored balance is returned")
     public final void whenCheckingTypeSpecifiedThenStoredBalanceIsReturned() throws IOException {
         assertEquals(200.00, checking.getActBalance(TEST_ID, "Checking"), 0.001);

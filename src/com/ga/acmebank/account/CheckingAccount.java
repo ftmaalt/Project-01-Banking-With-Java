@@ -35,7 +35,9 @@ public class CheckingAccount extends Account {
     public String UpdateCardType() {
         try{
             Path file= AccountFileHelper.findFileFromId(userID).orElseThrow(()-> new IOException("User file not found."));
-            double accumulatedForThisMonth = AccountFileHelper.accumulatedMonthlyDeposit(file, section(), Set.of("Deposit"));
+            double accumulatedForThisMonth = AccountFileHelper.accumulatedMonthlyDeposit(
+                    file, section(), Set.of("Deposit", "Transfer In"));
+
             String currentCard= checkCardName();
             String updatedCard;
             if (accumulatedForThisMonth> 50_000)
@@ -47,14 +49,13 @@ public class CheckingAccount extends Account {
                 updatedCard= "MasterCard";
             }
             if (cardRank(updatedCard)<= cardRank(currentCard)){
-                return "You are not Eligible to update your card";
+                return "You are not Eligible to update your card. Current Card:"+currentCard;
             }
             AccountFileHelper.updateCardType(userID, updatedCard);
             return "Congratulations! Your card has been successfully upgraded! Upgraded from: "+currentCard+ " to: "+updatedCard;
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+            return "There was an error while checking for card updates, please try again...";        }
     }
 
     @Override
