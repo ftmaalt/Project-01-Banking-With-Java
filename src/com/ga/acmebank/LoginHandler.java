@@ -1,8 +1,5 @@
 package com.ga.acmebank;
 
-import com.ga.acmebank.account.BankAccount;
-import com.ga.acmebank.account.CheckingAccount;
-import com.ga.acmebank.account.SavingsAccount;
 import com.ga.acmebank.usertype.Banker;
 
 
@@ -15,23 +12,13 @@ import java.util.*;
 import java.io.*;
 
 
-//must get role from userrole somehow
+
 public class LoginHandler{
 
     String userID;
     static String userName;
     static Scanner loginScanner = new Scanner(System.in);
     static int attemptsCount = 0;
-
-
-//    @Override
-//    public char role() {
-//        char setRole='B';
-//        if (){
-//            setRole='C';
-//        }
-//        return setRole;
-//    }
 
 
     public String getUserID() {
@@ -50,20 +37,6 @@ public class LoginHandler{
         return userName;
     }
 
-    public String idGenerator(char role) {
-        String userID = "";
-        long cIdNums = 10000;
-        long bIdNums = 100;
-        if (role == 'C') {
-            //must check existing id nums first to find if there is a user with that same id number, else:
-            userID = role + String.valueOf(cIdNums);
-            cIdNums++;
-        } else {
-            userID = role + String.valueOf(bIdNums);
-            bIdNums++;
-        }
-        return userID;
-    }
 
     public void login() {
         System.out.println("=======================================================================");
@@ -81,10 +54,12 @@ public class LoginHandler{
             String inputID = loginScanner.nextLine().toUpperCase().strip();
             try {
                 boolean fileExists = Files.walk(Path.of("data")).filter(Files::isRegularFile).anyMatch(path -> path.getFileName().toString().contains(inputID));
+
                 if (fileExists) {
                     setUserID(inputID);
                     System.out.println("Enter your Password:");
                     String password = loginScanner.nextLine();
+                    //verifies if user inputted the correct password
                     try(Scanner fileReader= new Scanner(new File("data/users.txt"))){
                         while(fileReader.hasNextLine()){
                             String data= fileReader.nextLine();
@@ -92,14 +67,17 @@ public class LoginHandler{
                             if (inputID.equals(userinfoSplitter[0])){
                                 if (verifyPasswords(password,userinfoSplitter[3])){
                                     setUserName(userinfoSplitter[2]);
+                                    String userRole= userinfoSplitter[1].trim();
+                                    if (userRole.equalsIgnoreCase("B")){
+                                        Banker loggedInBanker= new Banker();
+                                        loggedInBanker.setUserID(getUserID());
+                                        loggedInBanker.bankerMenu();
+                                    }
                                     UserAccountActions newLoginAction= new Actions();
                                     newLoginAction.accountActions(getUserID());
                                 }else {
                                     failedLogin();
                                 }
-                            }
-                            else{
-                                continue;
                             }
                         }
                     }
@@ -110,9 +88,9 @@ public class LoginHandler{
                         if (failedChoice == 1)
                             login();
                         else {
-                            // should call one of the bankers
-                            Banker mike = new Banker();
-                            mike.createNewCustomer();
+                            Banker loggedInBanker= new Banker();
+                            loggedInBanker.createNewCustomer();
+                            login();
                         }
                     }
 

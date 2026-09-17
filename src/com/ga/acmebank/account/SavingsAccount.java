@@ -10,7 +10,8 @@ import java.util.stream.Stream;
 // needs to have a method that saves the amount in the user file
 public class SavingsAccount extends Account{
     public static String section_header=AccountFileHelper.SV_Section_Header;
-    int withdrawLimit=6;
+    private final static int M_withdrawLimit=6;
+    private int withdrawLimit= M_withdrawLimit;
     public SavingsAccount(String userID) {
         super(userID);
     }
@@ -32,23 +33,31 @@ public class SavingsAccount extends Account{
         return section_header;
     }
 
+    @Override
+    protected boolean hasWithdrawsRemaining() {
+        return withdrawLimit>0;
+    }
+
+    @Override
+    protected void onWithdrawalOrTransfer() {
+        withdrawLimit--;
+    }
+
+    @Override
+    protected boolean allowOverDraft() {
+        return false;
+    }
 
     public String savingAccountID(String userID){
-        // only returns true if savings account has balance in it/ otherwise the account does not exist even if the ID is there.
-        String userSVID=null;
+        String userSVID="";
         try(Scanner fileReader= new Scanner(new File("data/users.txt"))) {
             while (fileReader.hasNextLine()) {
                 String data = fileReader.nextLine();
                 String[] userinfoSplitter = data.split("\\s*\\|\\|\\s*");
-                if (userID.equals(userinfoSplitter[0])) {
+                if (userinfoSplitter.length > 6 && userID.equals(userinfoSplitter[0])) {
 
-//                    if (!AccountFileHelper.readBalance(AccountFileHelper.findFileFromAccountID(userID),section() )) { //should check if account has balance
                         userSVID = userinfoSplitter[6];
                         return userSVID;
-//                    } else {
-//                        System.out.println("You don't have a savings account, would you like to create one?");
-//                        return userSVID;
-//                    }
                 }
             }
         } catch (Exception e) {
@@ -59,5 +68,23 @@ public class SavingsAccount extends Account{
         return userSVID;
     }
 
+    @Override
+    protected double activationBalance() {
+        return 100;
+    }
 
+    @Override
+    protected boolean activationRequired() {
+        return true;
+    }
+
+    @Override
+    protected String checkCardName() {
+        return"MasterCard";
+    }
+
+    @Override
+    public String UpdateCardType() {
+        return "";
+    }
 }

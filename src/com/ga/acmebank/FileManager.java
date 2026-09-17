@@ -18,17 +18,18 @@ public class FileManager {
         final String USERS = "data/users.txt";
         try {
             File newFile = new File(USERS);
+            File parentDir = newFile.getParentFile();
+            if (parentDir != null && !parentDir.exists()) {
+                parentDir.mkdirs();
+            }
             if (newFile.createNewFile()) {
                 System.out.println("File Created:" + newFile.getName());
-            } else {
-
                 try {
-                    writer = new BufferedWriter(new FileWriter("data/users.txt"));
+                    writer = new BufferedWriter(new FileWriter(USERS));
                     writer.write("=====Main Users DataBase=====");
                     writer.newLine();
                     writer.write("USERID || ROLE || FULL NAME || PASSWORD || CARD_TYPE");
                     writer.newLine();
-
                 } catch (IOException e) {
                     e.printStackTrace();
                 } finally {
@@ -40,6 +41,8 @@ public class FileManager {
                         }
                     }
                 }
+            }else{
+                System.out.println("Database Already exists..");
             }
         } catch (IOException e) {
             throw new RuntimeException(e);

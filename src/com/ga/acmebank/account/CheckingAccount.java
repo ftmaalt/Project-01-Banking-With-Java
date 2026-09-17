@@ -1,17 +1,9 @@
 package com.ga.acmebank.account;
 
-import com.ga.acmebank.cards.Card;
-
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
-import java.util.stream.Stream;
-
-import java.time.*;
 
 public class CheckingAccount extends Account {
 
@@ -30,6 +22,41 @@ public class CheckingAccount extends Account {
         return false;
     }
 
+    private int cardRank(String cardName){
+        return switch (cardName){
+            case "MasterCardPlatinum"-> 2;
+            case "MasterCardTitanium"->1;
+            default -> 0;
+        };
+    }
+
+
+    @Override
+    public String UpdateCardType() {
+        try{
+            Path file= AccountFileHelper.findFileFromId(userID).orElseThrow(()-> new IOException("User file not found."));
+            double accumulatedForThisMonth = AccountFileHelper.accumulatedMonthlyDeposit(file, section(), Set.of("Deposit"));
+            String currentCard= checkCardName();
+            String updatedCard;
+            if (accumulatedForThisMonth> 50_000)
+                updatedCard="MasterCardPlatinum";
+            else if (accumulatedForThisMonth>10_000) {
+                updatedCard="MasterCardTitanium";
+            }
+            else{
+                updatedCard= "MasterCard";
+            }
+            if (cardRank(updatedCard)<= cardRank(currentCard)){
+                return "You are not Eligible to update your card";
+            }
+            AccountFileHelper.updateCardType(userID, updatedCard);
+            return "Congratulations! Your card has been successfully upgraded! Upgraded from: "+currentCard+ " to: "+updatedCard;
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     protected String ownActID() {
         return checkingAccountID(userID);
@@ -40,7 +67,7 @@ public class CheckingAccount extends Account {
         return section_header;
     }
 
-    @Override
+
     public String checkingAccountID(String userID) {
         String userCHID = null;
         try (Scanner fileReader = new Scanner(new File("data/users.txt"))) {

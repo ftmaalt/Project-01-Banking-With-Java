@@ -1,10 +1,10 @@
-=====CHECKING ACCOUNT=====
-AccountID: C10001-CH
-Balance: 0.00
--------Transactions-------
+====CHECKING ACCOUNT====
+ACCOUNTID: C10001-CH
+Account Balance: 0.00
+-------Transaction History-------
 DATE|TYPE|FROM|TO|AMOUNT|POST-BALANCE
-=====SAVINGS ACCOUNT=====
-AccountID: C10001-SV
-Balance: 0.00
--------Transactions-------
+====SAVINGS ACCOUNT====
+ACCOUNTID: C10001-SV
+Account Balance: 0.00
+-------Transaction History-------
 DATE|TYPE|FROM|TO|AMOUNT|POST-BALANCE
