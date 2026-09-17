@@ -92,7 +92,7 @@ Possible improvements for future versions include:
 
 ## Project Structure
 
-The project is organized into Java source files, test files, and supporting data files.
+```text
 AcmeBank
 ├── src
 │   └── com
@@ -128,6 +128,3 @@ AcmeBank
 │   └── users.txt
 ├── project1diagram.png
 └── README.md
-## Conclusion
-
-This project demonstrates the use of Java and object-oriented programming concepts to create a basic banking system. It also demonstrates the importance of planning, testing, debugging, and version control during software development.
