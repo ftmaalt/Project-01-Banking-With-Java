@@ -3,7 +3,7 @@ USERID || ROLE || FULL NAME || PASSWORD || CARD_TYPE  || CHECKING ID || SAVINGS 
 C10000 || C || Jeremy Johns || c+/ykpDfk1pGmnSwbH8CrA==:gsAhW1ctZohfrXAhyM+lJw== || MasterCard || C10000-CH || C10000-SV
 C10001 || C || Jane Doe || iiKz3r7neCM6AqV5wshofQ==:KazO/2QxzyTIeOhsj07nrQ== || MasterCard || C10001-CH || C10001-SV
 C10002 || C || Lana Anne || Lmg1Te4d+Zy8Vn8hIVVoeA==:n5pynpuJOR9rUo6yIhF9Hw== || MasterCard || C10002-CH || C10002-SV
-B100 || B || Micheal Adam || B9CNmcFDUCxQOplj+GCKVg==:PtxeblqcoAfcekb/aIF9kg== || MasterCard || B100-CH || B100-SV
+B100 || B || Micheal Adam || B9CNmcFDUCxQOplj+GCKVg==:PtxeblqcoAfcekb/aIF9kg== || MasterCardTitanium || B100-CH || B100-SV
 C10003 || C || John Doe || Lao6EkjB9Er9AHZM3LuT4g==:QKrqJ/EDZF7AjXmFppmvqw== || MasterCard || C10003-CH || C10003-SV
 C10004 || C || OverDrafter fake || ZQCcKF12s1dtL1/FiQZKOw==:vzL2q0PwQxuj4VlqzeoJGw== || MasterCard || C10004-CH || C10004-SV
 C10005 || C || Other Card || 0bz0N9Q2xkE0ALxGOcljnA==:3XDpfxp+y/c6ppmnGXSOHw== || MasterCardPlatinum || C10005-CH || C10005-SV

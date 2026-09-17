@@ -258,7 +258,7 @@ public abstract class Account implements BankAccount {
            double newFromBalance= currentFromBalance- balance;
 
             if(newFromBalance<0 && !allowOverDraft()){
-                return "Error performing withdrawal. You have insufficient funds.";
+                return "Error performing transfer. You have insufficient funds.";
             }
             if (newFromBalance<0){
                 newFromBalance= overDraft.applyOverDraftFree(userID, section(), newFromBalance);
